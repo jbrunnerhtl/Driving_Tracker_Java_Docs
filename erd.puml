@@ -10,7 +10,7 @@ entity TRIP {
     * END_KM : DOUBLE
     * START_CITY : VARCHAR(100)
     * END_CITY : VARCHAR(100)
-    INFO : VARCHAR(1000)
+    * INFO : VARCHAR(1000)
 }
 
 entity TRIP_CONDITION {

@@ -13,15 +13,17 @@ class Trip {
     -String info <<get/set>>
 
     +Trip(date, conditions, startKm, endKm, startCity, endCity)
+    +Trip(id, date, conditions, startKm, endKm, startCity, endCity)
+    +Trip(id, date, conditions, startKm, endKm, startCity, endCity, info)
     +Trip(date, conditions, startKm, endKm, startCity, endCity, info)
     +Trip(other: Trip)
-    +addCondition()
-    +toString()
-    +toStringCSV()
-    +{static}parseFromCSV()
-    +equals()
-    +hashCode()
-    +compareTo()
+    +addCondition(condition: Condition)
+    +toString(): String
+    +toStringCSV(): String
+    +{static}parseFromCSV(line: String): Trip
+    +equals(o: Object): boolean
+    +hashCode(): int
+    +compareTo(o: Trip): int
 }
 
 class TripManager {
@@ -32,17 +34,17 @@ class TripManager {
 
     +TripManager()
     +loadTripsFromDB()
-    +addTrip()
-    +updateTrip()
-    +deleteTrip()
-    +getTripsSorted()
-    +applyFilter()
-    +setSortedListComparator()
-    +getCSV()
-    +getSumKilometers()
-    +getAverageKilometers()
-    +getTripsInMonth()
-    +getKilometerInDates()
+    +addTrip(trip: Trip)
+    +updateTrip(trip: Trip, old: Trip)
+    +deleteTrip(trip: Trip)
+    +getTripsSorted(): SortedList<Trip>
+    +applyFilter(tripPredicate: Predicate<Trip>)
+    +setSortedListComparator(val: Sort)
+    +getCSV(): List<String>
+    +getSumKilometers(): double
+    +getAverageKilometers(): double
+    +getTripsInMonth(month: Month): int
+    +getKilometerInDates(dates: List<LocalDate>): double
     +clearTrips()
 }
 
@@ -50,10 +52,10 @@ class DatabaseConnection {
     {static}-String URL
 
     +DatabaseConnection()
-    +insertIntoDB()
-    +getAllTrips()
-    +updateTrip()
-    +deleteTrip()
+    +insertIntoDB(trip: Trip)
+    +getAllTrips(): List<Trip>
+    +updateTrip(trip: Trip, old: Trip)
+    +deleteTrip(trip: Trip)
     -defaultTables()
 }
 
@@ -68,16 +70,21 @@ enum Condition {
     Ice
 }
 
-
-
 enum Sort {
     NEW
     OLD
+}
+
+enum Measure {
+    Normal
+    L17
+    {static}+getValue(measure: Measure): int
 }
 
 Trip "1" --- "*" Condition : hat
 TripManager "1" --- "*" Trip : verwaltet
 TripManager "1" --- "1" DatabaseConnection : schreibt in
 TripManager --- Sort : nutzt zum Sortieren
+TripManager --- Measure : nutzt zur Fortschrittsberechnung
 
 @enduml
