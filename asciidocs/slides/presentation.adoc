@@ -175,7 +175,7 @@ entity TRIP {
     * ID : INT <<PK>>
     ---
     DATE, START_KM, END_KM
-    START_CITY, END_CITY
+    START_CITY, END_CITY, INFO
 }
 
 entity TRIP_CONDITION {
