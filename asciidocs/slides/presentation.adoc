@@ -138,21 +138,13 @@ class DatabaseConnection {
 }
 
 enum Condition {
-    Day
-    Night
-    Rain
-    Dry
-    Wet
-    Fog
-    Snow
-    Ice
+
 }
 
 
 
 enum Sort {
-    NEW
-    OLD
+
 }
 
 Trip "1" --- "*" Condition : hat
