@@ -31,8 +31,10 @@ class TripManager {
     -DatabaseConnection connection
     -FilteredList<Trip> filteredList
     -SortedList<Trip> sortedList
+    -SimpleIntegerProperty countOfTrips
 
     +TripManager()
+    +getCountProperty(): SimpleIntegerProperty
     +loadTripsFromDB()
     +addTrip(trip: Trip)
     +updateTrip(trip: Trip, old: Trip)
@@ -75,16 +77,9 @@ enum Sort {
     OLD
 }
 
-enum Measure {
-    Normal
-    L17
-    {static}+getValue(measure: Measure): int
-}
-
 Trip "1" --- "*" Condition : hat
 TripManager "1" --- "*" Trip : verwaltet
 TripManager "1" --- "1" DatabaseConnection : schreibt in
 TripManager --- Sort : nutzt zum Sortieren
-TripManager --- Measure : nutzt zur Fortschrittsberechnung
 
 @enduml
