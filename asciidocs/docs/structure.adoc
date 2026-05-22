@@ -51,8 +51,10 @@ class TripManager {
     -DatabaseConnection connection
     -FilteredList<Trip> filteredList
     -SortedList<Trip> sortedList
+    -SimpleIntegerProperty countOfTrips
 
     +TripManager()
+    +getCountProperty(): SimpleIntegerProperty
     +loadTripsFromDB()
     +addTrip(trip: Trip)
     +updateTrip(trip: Trip, old: Trip)
@@ -94,7 +96,6 @@ enum Sort {
     NEW
     OLD
 }
-
 
 Trip "1" --- "*" Condition : hat
 TripManager "1" --- "*" Trip : verwaltet
