@@ -67,8 +67,6 @@ class TripManager {
     +double getAverageKilometers()
     +int getTripsInMonth(Month month)
     +double getKilometerInDates(List<LocalDate> dates)
-    +double getProgress(Measure measure)
-    +int getRequiredKilometers(Measure measure)
     +clearTrips()
 }
 
@@ -110,7 +108,6 @@ Trip "1" --- "*" Condition : hat
 TripManager "1" --- "*" Trip : verwaltet
 TripManager "1" --- "1" DatabaseConnection : schreibt in
 TripManager --- Sort : nutzt zum Sortieren
-TripManager --- Measure : nutzt zum Berechnen des Fortschritts
 
 @enduml
 ----
