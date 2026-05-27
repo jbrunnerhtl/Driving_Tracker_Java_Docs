@@ -32,18 +32,18 @@ class Trip {
     -String endCity <<get/set>>
     -String info <<get/set>>
 
-    +Trip(date, conditions, startKm, endKm, startCity, endCity)
-    +Trip(id, date, conditions, startKm, endKm, startCity, endCity)
-    +Trip(id, date, conditions, startKm, endKm, startCity, endCity, info)
-    +Trip(date, conditions, startKm, endKm, startCity, endCity, info)
-    +Trip(other: Trip)
-    +addCondition(condition: Condition)
-    +toString(): String
-    +toStringCSV(): String
-    +{static}parseFromCSV(line: String): Trip
-    +equals(o: Object): boolean
-    +hashCode(): int
-    +compareTo(o: Trip): int
+    +Trip(LocalDate date, HashSet<Condition> conditions, double startKm, double endKm, String startCity, String endCity)
+    +Trip(int id, LocalDate date, HashSet<Condition> conditions, double startKm, double endKm, String startCity, String endCity)
+    +Trip(int id, LocalDate date, HashSet<Condition> conditions, double startKm, double endKm, String startCity, String endCity, String info)
+    +Trip(LocalDate date, HashSet<Condition> conditions, double startKm, double endKm, String startCity, String endCity, String info)
+    +Trip(Trip other)
+    +addCondition(Condition condition)
+    +String toString()
+    +String toStringCSV()
+    +{static}Trip parseFromCSV(String line)
+    +boolean equals(Object o)
+    +int hashCode()
+    +int compareTo(Trip o)
 }
 
 class TripManager {
@@ -54,19 +54,21 @@ class TripManager {
     -SimpleIntegerProperty countOfTrips
 
     +TripManager()
-    +getCountProperty(): SimpleIntegerProperty
+    +SimpleIntegerProperty getCountProperty()
     +loadTripsFromDB()
-    +addTrip(trip: Trip)
-    +updateTrip(trip: Trip, old: Trip)
-    +deleteTrip(trip: Trip)
-    +getTripsSorted(): SortedList<Trip>
-    +applyFilter(tripPredicate: Predicate<Trip>)
-    +setSortedListComparator(val: Sort)
-    +getCSV(): List<String>
-    +getSumKilometers(): double
-    +getAverageKilometers(): double
-    +getTripsInMonth(month: Month): int
-    +getKilometerInDates(dates: List<LocalDate>): double
+    +addTrip(Trip trip)
+    +updateTrip(Trip trip, Trip old)
+    +deleteTrip(Trip trip)
+    +SortedList<Trip> getTripsSorted()
+    +applyFilter(Predicate<Trip> tripPredicate)
+    +setSortedListComparator(Sort val)
+    +List<String> getCSV()
+    +double getSumKilometers()
+    +double getAverageKilometers()
+    +int getTripsInMonth(Month month)
+    +double getKilometerInDates(List<LocalDate> dates)
+    +double getProgress(Measure measure)
+    +int getRequiredKilometers(Measure measure)
     +clearTrips()
 }
 
@@ -74,10 +76,10 @@ class DatabaseConnection {
     {static}-String URL
 
     +DatabaseConnection()
-    +insertIntoDB(trip: Trip)
-    +getAllTrips(): List<Trip>
-    +updateTrip(trip: Trip, old: Trip)
-    +deleteTrip(trip: Trip)
+    +insertIntoDB(Trip trip)
+    +List<Trip> getAllTrips()
+    +updateTrip(Trip trip, Trip old)
+    +deleteTrip(Trip trip)
     -defaultTables()
 }
 
@@ -90,6 +92,7 @@ enum Condition {
     Fog
     Snow
     Ice
+    +String getValue()
 }
 
 enum Sort {
@@ -97,10 +100,17 @@ enum Sort {
     OLD
 }
 
+enum Measure {
+    Normal
+    L17
+    +{static}int getValue(Measure measure)
+}
+
 Trip "1" --- "*" Condition : hat
 TripManager "1" --- "*" Trip : verwaltet
 TripManager "1" --- "1" DatabaseConnection : schreibt in
 TripManager --- Sort : nutzt zum Sortieren
+TripManager --- Measure : nutzt zum Berechnen des Fortschritts
 
 @enduml
 ----

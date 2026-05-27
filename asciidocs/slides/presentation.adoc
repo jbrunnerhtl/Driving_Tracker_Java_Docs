@@ -126,34 +126,30 @@ UC3 .> UC4 : <<include>>
 left to right direction
 
 class Trip {
-
 }
 
 class TripManager {
-
 }
 
 class DatabaseConnection {
-
 }
 
 enum Condition {
-
 }
 
-
-
 enum Sort {
+}
 
+enum Measure {
 }
 
 Trip "1" --- "*" Condition : hat
 TripManager "1" --- "*" Trip : verwaltet
 TripManager "1" --- "1" DatabaseConnection : schreibt in
 TripManager --- Sort : nutzt zum Sortieren
+TripManager --- Measure : nutzt zum Berechnen des Fortschritts
 
 @enduml
-
 ----
 
 
